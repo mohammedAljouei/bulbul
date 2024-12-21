@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  direction: rtl;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  @apply bg-gradient-to-br from-purple-50 to-indigo-50 min-h-screen text-purple-900;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Safe area padding for iOS */
+.safe-area-view {
+  @apply min-h-screen pt-safe pb-[calc(env(safe-area-inset-bottom)+6rem)] px-safe;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 rounded-xl bg-white/50 border border-purple-100 
+         focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-200 outline-none
+         placeholder:text-purple-300;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold 
+         hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 active:scale-95
+         disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/20;
+}
+
+.btn-secondary {
+  @apply bg-white/50 text-purple-800 px-6 py-3 rounded-xl font-semibold 
+         hover:bg-white/70 transition-all duration-200 active:scale-95
+         disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/10;
+}
+
+.card {
+  @apply bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6;
+}
+
+/* Toast container styles */
+.toast-container {
+  @apply !top-safe !z-50;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .card {
+    @apply rounded-xl shadow-lg mx-0;
+  }
+  
+  .form-input {
+    @apply text-lg;
+  }
+  
+  .btn-primary, .btn-secondary {
+    @apply text-lg py-4;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
