@@ -2,18 +2,36 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
-import { Bird, Mail, Lock, ArrowRight, Sparkles, Globe2, Users, GraduationCap } from 'lucide-react';
+import { Bird, Lock, ArrowRight, Sparkles, Globe2, Users, GraduationCap } from 'lucide-react';
+import { PhoneInput } from '../components/auth/PhoneInput';
+import { formatPhoneToEmail, isValidSaudiPhone, getAuthErrorMessage } from '../utils/authUtils';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
   const { signIn, signUp } = useAuth();
+
+  const validateForm = () => {
+    setPhoneError('');
+    
+    if (!isValidSaudiPhone(phone)) {
+      setPhoneError('يرجى إدخال رقم جوال صحيح');
+      return false;
+    }
+    
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+    
     setLoading(true);
+    const email = formatPhoneToEmail(phone);
 
     try {
       if (isLogin) {
@@ -23,9 +41,9 @@ export default function Auth() {
         await signUp(email, password);
         toast.success('تم إنشاء الحساب بنجاح');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Auth error:', error);
-      toast.error(isLogin ? 'فشل تسجيل الدخول' : 'فشل إنشاء الحساب');
+      toast.error(getAuthErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -154,20 +172,11 @@ export default function Auth() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-purple-900">
-                    <Mail className="w-4 h-4 inline-block ml-2" />
-                    البريد الإلكتروني
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    className="form-input text-left"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    dir="ltr"
-                  />
-                </div>
+                <PhoneInput
+                  value={phone}
+                  onChange={setPhone}
+                  error={phoneError}
+                />
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-purple-900">

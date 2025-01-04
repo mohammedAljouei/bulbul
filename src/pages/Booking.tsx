@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { useProfile } from '../hooks/useProfile';
 import { useSubscription } from '../hooks/useSubscription';
+import { useUpdateLevel } from '../hooks/useUpdateLevel';
 import { BookingHeader } from '../components/booking/BookingHeader';
 import { SessionTypeSelector } from '../components/booking/SessionTypeSelector';
 import { SpotSelector } from '../components/booking/SpotSelector';
@@ -10,22 +12,34 @@ import { TimePicker } from '../components/common/TimePicker';
 import { BookingSuccess } from '../components/booking/BookingSuccess';
 import { NoSessionsState } from '../components/booking/NoSessionsState';
 import { FirstTimeBookingState } from '../components/booking/FirstTimeBookingState';
+import { LevelSelector } from '../components/booking/LevelSelector';
 import { useCreateBooking } from '../hooks/useCreateBooking';
 import { SessionType } from '../types/booking';
+import { UserLevel } from '../types/database';
 import { useSpots } from '../hooks/useSpots';
 
 export default function Booking() {
   const { user } = useAuth();
+  const { profile } = useProfile(user?.id || '');
   const { subscription, loading: subscriptionLoading } = useSubscription();
   const { createBooking, loading } = useCreateBooking();
+  const { updateLevel, loading: updatingLevel } = useUpdateLevel();
   const { spots } = useSpots();
   const [sessionType, setSessionType] = useState<SessionType>('offline');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [spotId, setSpotId] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showLevelSelector, setShowLevelSelector] = useState(!profile?.level);
 
   const isFormValid = date && time && (sessionType === 'online' || (sessionType === 'offline' && spotId));
+
+  const handleLevelSelect = async (level: UserLevel) => {
+    const success = await updateLevel(level);
+    if (success) {
+      setShowLevelSelector(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +63,6 @@ export default function Booking() {
 
   if (!user || subscriptionLoading) return null;
 
-  // Show FirstTimeBookingState when user has no subscription
   if (!subscription) {
     return (
       <div className="safe-area-view p-4">
@@ -58,7 +71,6 @@ export default function Booking() {
     );
   }
 
-  // Show NoSessionsState when user has no remaining sessions
   if (subscription.remaining_sessions <= 0) {
     return (
       <div className="safe-area-view p-4">
@@ -98,7 +110,7 @@ export default function Booking() {
             <button
               type="submit"
               className="btn-primary w-full py-4"
-              disabled={loading || !isFormValid}
+              disabled={loading || !isFormValid || updatingLevel}
             >
               {loading ? 'جاري الحجز...' : 'تأكيد الحجز'}
             </button>
@@ -111,6 +123,14 @@ export default function Booking() {
             time={time}
             isOnline={sessionType === 'online'}
             spotName={selectedSpot?.name}
+          />
+        )}
+
+        {showLevelSelector && (
+          <LevelSelector
+            value={profile?.level}
+            onChange={handleLevelSelect}
+            onComplete={() => setShowLevelSelector(false)}
           />
         )}
       </div>
