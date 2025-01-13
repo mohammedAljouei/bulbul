@@ -54,7 +54,7 @@ export default function Profile() {
             transition={{ delay: 0.4 }}
             className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg"
           >
-            <ProfileForm userId={user.id} onComplete={() => window.location.reload()} />
+            <ProfileForm userId={user.id} onComplete={() => navigate('/booking')} />
           </motion.div>
         ) : (
           <>

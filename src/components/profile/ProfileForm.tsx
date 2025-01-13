@@ -29,10 +29,12 @@ export function ProfileForm({ onComplete, userId }: ProfileFormProps) {
         ]);
 
       if (error) throw error;
+
+      
       
       toast.success('تم حفظ المعلومات بنجاح');
       onComplete();
-      navigate('/packages'); // Redirect to packages page after successful profile creation
+      navigate('/booking'); // Redirect to booking page after successful profile creation
     } catch (error) {
       console.error('Profile error:', error);
       toast.error('حدث خطأ أثناء حفظ المعلومات');
@@ -58,7 +60,7 @@ export function ProfileForm({ onComplete, userId }: ProfileFormProps) {
           className="form-input"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          placeholder="أدخل اسمك الأول"
+          placeholder="للحجز، أدخل اسمك الأول"
           minLength={2}
           maxLength={50}
         />

@@ -32,7 +32,9 @@ export default function Booking() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showLevelSelector, setShowLevelSelector] = useState(!profile?.level);
 
-  const isFormValid = date && time && (sessionType === 'online' || (sessionType === 'offline' && spotId));
+
+  const isFormValid =  date && time && (sessionType === 'online' || (sessionType === 'offline' && spotId));
+
 
   const handleLevelSelect = async (level: UserLevel) => {
     const success = await updateLevel(level);
@@ -43,7 +45,10 @@ export default function Booking() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
+    
     if (!user || !subscription || subscription.remaining_sessions <= 0 || !isFormValid) return;
+   
 
     const bookingSpotId = sessionType === 'offline' && spotId ? spotId : null;
 
@@ -91,11 +96,11 @@ export default function Booking() {
       <div className="max-w-2xl mx-auto p-4 space-y-6">
         <BookingHeader subscription={subscription} />
         
-        <motion.form
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
-          onSubmit={handleSubmit}
+
         >
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg space-y-6">
             <SessionTypeSelector value={sessionType} onChange={setSessionType} />
@@ -108,14 +113,20 @@ export default function Booking() {
             <TimePicker value={time} onChange={setTime} />
             
             <button
-              type="submit"
+              // type="submit"
+              onClick={(e)=>{
+
+               
+                
+                handleSubmit(e);
+              }}
               className="btn-primary w-full py-4"
               disabled={loading || !isFormValid || updatingLevel}
             >
               {loading ? 'جاري الحجز...' : 'تأكيد الحجز'}
             </button>
           </div>
-        </motion.form>
+        </motion.div>
 
         {showSuccess && (
           <BookingSuccess

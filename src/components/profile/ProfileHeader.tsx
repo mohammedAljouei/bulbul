@@ -57,7 +57,8 @@ export function ProfileHeader({ email, profile, onLogout, loading }: ProfileHead
             <h2 className="text-2xl font-bold">
               {profile?.first_name || 'مرحباً'}
             </h2>
-            <p className="text-white/80 text-sm">{email}</p>
+            <p className="text-white/80 text-sm">{email.replace('@example.com', '')}</p>
+   
           </motion.div>
 
           <motion.button
