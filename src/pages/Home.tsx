@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Bird, Sparkles, Globe2, Users, BookOpen, ArrowLeft, GraduationCap } from 'lucide-react';
+import { Bird, Sparkles, Globe2, Users, BookOpen, ArrowLeft, GraduationCap, ExternalLink } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -45,6 +45,26 @@ export default function Home() {
                 تعرف على المزيد
               </a>
             </div>
+             {/* Instructor Registration Link */}
+             <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="pt-4"
+            >
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeSdN9eXo7-Enkl2CnkmJm95PhBsCyzGunHOFVVAOMvxdqBsg/viewform?usp=dialog"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
+              >
+                <GraduationCap className="w-5 h-5" />
+                <ExternalLink className="w-4 h-4" />
+               ? Want to register as an instructor
+   
+              </a>
+            </motion.div>
+            
           </motion.div>
         </div>
       </div>

@@ -29,14 +29,14 @@ export function PhoneInput({ value, onChange, error }: PhoneInputProps) {
       </label>
       <div className="relative">
         <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-          <span className="text-purple-600">05</span>
+          {/* <span className="text-purple-600">05</span> */}
         </div>
         <input
           type="tel"
           value={formatDisplay(value)}
           onChange={handleChange}
           className="form-input text-left pr-12"
-          placeholder="5XXXXXXXX"
+          placeholder="05XXXXXXXX"
           dir="ltr"
         />
       </div>
