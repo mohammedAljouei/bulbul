@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Bird, Sparkles, Globe2, Users, BookOpen, ArrowLeft, GraduationCap, ExternalLink } from 'lucide-react';
+import { Teachers } from './Teachers';
 
 export default function Home() {
   return (
@@ -35,11 +36,11 @@ export default function Home() {
               </motion.span>
             </h1>
             <p className="text-lg text-purple-700 max-w-2xl mx-auto">
-              نساعدك على تعلم اللغة الإنجليزية مع أفضل المدرسين في جلسات خاصة حضورية أو عن بعد
+              نساعدك على تعلم اللغة الإنجليزية مع أفضل المدرسين في جلسات حضورية أو عن بعد
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Link to="/auth" className="btn-primary py-3 px-8">
-                ابدأ الآن
+              <Link to="/booking" className="btn-primary py-3 px-8">
+                احجز جلسة
               </Link>
               <a href="#features" className="btn-secondary py-3 px-8">
                 تعرف على المزيد
@@ -61,10 +62,8 @@ export default function Home() {
                 <GraduationCap className="w-5 h-5" />
                 <ExternalLink className="w-4 h-4" />
                ? Want to register as an instructor
-   
               </a>
             </motion.div>
-            
           </motion.div>
         </div>
       </div>
@@ -91,8 +90,8 @@ export default function Home() {
               },
               {
                 icon: <BookOpen className="w-8 h-8" />,
-                title: "منهج متكامل",
-                description: "منهج تعليمي شامل يغطي جميع مهارات اللغة"
+                title: "ممارسة احترافية",
+                description: "ممارسة تعليمية شاملة تغطي جميع مهارات اللغة"
               }
             ].map((feature, index) => (
               <motion.div
@@ -112,6 +111,11 @@ export default function Home() {
             ))}
           </motion.div>
         </div>
+      </div>
+
+      {/* Teachers Section */}
+      <div className="py-16">
+        <Teachers />
       </div>
 
       {/* CTA Section */}

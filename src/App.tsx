@@ -14,7 +14,7 @@ import { LoadingScreen } from './components/common/LoadingScreen';
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   if (!user) return <Navigate to="/auth" replace />;
-  return <AppLayout>{children}</AppLayout>;
+  return children;
 }
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
@@ -39,36 +39,39 @@ function AppRoutes() {
   if (isLoading) {
     return <LoadingScreen />;
   }
-  
+
   return (
-    <AnimatePresence mode="wait">
-      <Routes>
-        <Route path="/" element={
-          user ? <Navigate to="/booking" replace /> : <Home />
-        } />
-        <Route path="/auth" element={
-          <PublicRoute>
-            <Auth />
-          </PublicRoute>
-        } />
-        <Route path="/packages" element={
-          <ProtectedRoute>
-            <Packages />
-          </ProtectedRoute>
-        } />
-        <Route path="/booking" element={
-          <ProtectedRoute>
-            <Booking />
-          </ProtectedRoute>
-        } />
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        } />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AnimatePresence>
+    <AppLayout>
+      <AnimatePresence mode="wait">
+        <Routes>
+          {/* Show Home only for non-authenticated users */}
+          <Route path="/" element={
+            user ? <Navigate to="/booking" replace /> : <Home />
+          } />
+          <Route path="/auth" element={
+            <PublicRoute>
+              <Auth />
+            </PublicRoute>
+          } />
+          <Route path="/packages" element={
+            <ProtectedRoute>
+              <Packages />
+            </ProtectedRoute>
+          } />
+          <Route path="/booking" element={
+            <ProtectedRoute>
+              <Booking />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="*" element={<Navigate to={user ? "/booking" : "/"} replace />} />
+        </Routes>
+      </AnimatePresence>
+    </AppLayout>
   );
 }
 

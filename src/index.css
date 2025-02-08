@@ -10,13 +10,30 @@
 
 body {
   font-family: 'Cairo', sans-serif;
-  @apply bg-gradient-to-br from-purple-50 to-indigo-50 min-h-screen text-purple-900;
+  @apply bg-gradient-to-br from-purple-50 to-indigo-50 text-purple-900;
   -webkit-tap-highlight-color: transparent;
+  @apply fixed inset-0 overflow-hidden; /* Prevent body scrolling */
+}
+
+/* Main container */
+.main-container {
+  @apply fixed inset-0 overflow-y-auto overflow-x-hidden pb-[calc(env(safe-area-inset-bottom)+5rem)];
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Safe area padding for iOS */
 .safe-area-view {
-  @apply min-h-screen pt-safe pb-[calc(env(safe-area-inset-bottom)+6rem)] px-safe;
+  @apply px-4 pt-safe;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  @apply fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-purple-100 pb-safe z-40;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  @apply fixed inset-0 z-50 bg-purple-900/20 backdrop-blur-sm overflow-y-auto pb-[calc(env(safe-area-inset-bottom)+5rem)];
 }
 
 .form-input {
@@ -27,43 +44,18 @@ body {
 
 .btn-primary {
   @apply bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold 
-         hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 active:scale-95
+         hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 active:scale-95 cursor-pointer
          disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/20;
 }
 
 .btn-secondary {
-  @apply bg-white/50 text-purple-800 px-6 py-3 rounded-xl font-semibold 
+  @apply bg-white/50 text-purple-800 px-6 py-3 rounded-xl font-semibold cursor-pointer
          hover:bg-white/70 transition-all duration-200 active:scale-95
          disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/10;
 }
 
 .card {
   @apply bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6;
-}
-
-/* Toast container styles */
-.toast-container {
-  @apply !top-safe !z-50;
-}
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .card {
-    @apply rounded-xl shadow-lg mx-0;
-  }
-  
-  .form-input {
-    @apply text-lg;
-  }
-  
-  .btn-primary, .btn-secondary {
-    @apply text-lg py-4;
-  }
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
 }
 
 /* Hide scrollbar */
@@ -74,4 +66,9 @@ html {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Toast container styles */
+.toast-container {
+  @apply !top-safe !z-50;
 }
