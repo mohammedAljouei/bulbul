@@ -8,10 +8,14 @@ interface TimePickerProps {
 
 export function TimePicker({ value, onChange }: TimePickerProps) {
   // Available time slots
+  // const timeSlots = [
+  //   '14:00', '15:00', '16:00', '17:00', '18:00',
+  //   '19:00', '20:00', '21:00', '22:00', '23:00'
+  // ];
   const timeSlots = [
-    '14:00', '15:00', '16:00', '17:00', '18:00',
-    '19:00', '20:00', '21:00', '22:00', '23:00'
+    '21:00', '22:00', '23:00', '00:00', '01:00'
   ];
+
 
   const formatTime = (timeStr: string) => {
     const [hours, minutes] = timeStr.split(':');

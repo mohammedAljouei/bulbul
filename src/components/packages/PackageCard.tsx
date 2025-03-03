@@ -40,7 +40,7 @@ export function PackageCard({ pkg, selected, onSelect }: PackageCardProps) {
             {pkg.sessions_per_month} جلسة شهرياً
           </p>
           <p className="text-sm opacity-75">
-            {Math.round(pkg.price / pkg.sessions_per_month)} ريال للجلسة
+            {Math.round((pkg.price)) == 299 ? "انطلق معنا " : Math.round((pkg.price)) == 499 ? "مارس معنا " : Math.round((pkg.price )) == 799 ? "احترف معنا" : "" }
           </p>
         </div>
       </div>
